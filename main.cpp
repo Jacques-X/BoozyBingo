@@ -1,6 +1,9 @@
 #include <iostream>
-#include <cstdlib>  //for rand() and srand()
-#include <ctime>    //for time()
+#include <cstdlib>  
+#include <ctime>    
+#include <fstream>
+#include <string>
+#include <sstream>
 
 class songs {
 private:
@@ -74,6 +77,33 @@ public:
     }
 };
 
+void readSongTitles(songs &s) {
+    std::ifstream file("Songs.txt");
+    std::string line, title;
+    int index = 0;
+
+    if (file.is_open()) {
+        if (std::getline(file, line)) {
+            size_t pos = 0;
+            std::string delimiter = "  ";  // Double space delimiter
+            while ((pos = line.find(delimiter)) != std::string::npos && index < 100) {
+                title = line.substr(0, pos);  // Extract the title
+                s.setSongTitle(index, title); // Set the title in the songs array
+                line.erase(0, pos + delimiter.length());  // Remove the processed part
+                index++;
+            }
+            if (!line.empty() && index < 100) {  // Set the last remaining title, if any
+                s.setSongTitle(index, line);
+            }
+        }
+        file.close();
+        std::cout << "Read " << index << " song titles from file.\n";
+    } else {
+        std::cerr << "Unable to open Songs.txt file.\n";
+    }
+}
+
+
 void chooseSongs(int songSelection[40][25]) {
     //Seed the random number generator with the current time
     srand(time(0));
@@ -109,6 +139,9 @@ void randomiseSheet(int songSheet[40][5][5], const int songSelection[40][25]) {
 int main() {
     songs s;
 
+    // Read song titles from file
+    readSongTitles(s);
+
     //Choosing songs for each person
     const int(*songSelection)[25] = s.getSongSelection();
     //Create a non-const copy
@@ -132,6 +165,20 @@ int main() {
         }
     }
     randomiseSheet(songSheetCopy, songSelectionCopy);
+
+    // Output the songSheet array for each person
+    for (int person = 0; person < 40; ++person) {
+        std::cout << "Song Sheet for Person " << person + 1 << ":\n";
+        for (int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                // Get the song title using the song index
+                std::string songTitle = s.getSongTitle(songSheetCopy[person][i][j]);
+                std::cout << songTitle << "\t";
+            }
+            std::cout << "\n";
+        }
+        std::cout << "\n";
+    }
 
     return 0;
 };
