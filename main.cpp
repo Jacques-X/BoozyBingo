@@ -4,6 +4,9 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm> 
+#include <vector>   
+#include <random>    
 
 class songs {
 private:
@@ -57,26 +60,59 @@ void readSongTitles(songs &s) {
 
 // Function to choose random songs for each person
 void chooseSongs(int songSelection[40][25]) {
-    //Fill the 2D array with random numbers from 0 to 24
+    // Seed for random number generator
+    srand(time(0));
+
+    // For each person
     for (int i = 0; i < 40; ++i) {
+        // Boolean array to track used songs (false = not used, true = used)
+        bool usedSongs[25] = {false};
+
         for (int j = 0; j < 25; ++j) {
-            songSelection[i][j] = rand() % 25; // Random song index between 0 and 24
+            int randomSong;
+
+            // Keep picking a random song until an unused one is found
+            do {
+                randomSong = rand() % 25; // Random number between 0 and 24
+            } while (usedSongs[randomSong]); // Repeat if the song was already used
+
+            // Mark this song as used and add it to the person's selection
+            usedSongs[randomSong] = true;
+            songSelection[i][j] = randomSong;
         }
     }
 }
 
 // Function to randomize the song sheet
 void randomiseSheet(int songSheet[40][5][5], const int songSelection[40][25]) {
-    //Randomly distribute songs from the selectedSongs array to the songSheet array
+    // Array to track which songs have been selected
+    bool selected[25];
+
     for (int i = 0; i < 40; ++i) {
+        // Reset selected array for each songSheet
+        for (int s = 0; s < 25; ++s) {
+            selected[s] = false;
+        }
+
         for (int j = 0; j < 5; ++j) {
             for (int k = 0; k < 5; ++k) {
-                int randomSong = rand() % 25; // Pick a random song
+                int randomSong;
+
+                // Find a unique random song
+                do {
+                    randomSong = rand() % 25; // Pick a random song
+                } while (selected[randomSong]); // Keep picking until we find an unselected song
+
+                // Mark the song as selected
+                selected[randomSong] = true;
+
+                // Assign the unique song to the songSheet
                 songSheet[i][j][k] = songSelection[i][randomSong];
             }
         }
     }
 }
+
 
 int main() {
     songs s;
