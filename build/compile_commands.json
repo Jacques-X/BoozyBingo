@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++   -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -o CMakeFiles/CMakeLists.dir/main.cpp.o -c \"/Users/jacquesx/Documents/Coding Projects/BoozyBingo/main.cpp\"",
+  "file": "/Users/jacquesx/Documents/Coding Projects/BoozyBingo/main.cpp",
+  "output": "CMakeFiles/CMakeLists.dir/main.cpp.o"
+}
+]
