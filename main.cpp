@@ -3,6 +3,7 @@
 class songs {
     private:
         std::string songTitles[100];
+        int* songSelection[40][25];     //[People][Songs] 
         int songSheet[40][5][5];        //[People][Sheet Hight][Sheet Width]
     
     public:
@@ -35,6 +36,10 @@ class songs {
                 songSheet[person][height][width] = value;
             }
         }
+};
+
+void chooseSongs(int* songSelection[40][25]){
+    
 };
 
 int main() {
