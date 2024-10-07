@@ -129,5 +129,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/CMakeLists.dir/DependInfo.cmake"
+  "CMakeFiles/BoozyBingo.dir/DependInfo.cmake"
   )

@@ -1,2 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/ar qc libCMakeLists.a CMakeFiles/CMakeLists.dir/main.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib libCMakeLists.a
