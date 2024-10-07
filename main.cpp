@@ -1,9 +1,11 @@
 #include <iostream>
+#include <cstdlib> // for rand() and srand()
+#include <ctime>   // for time()
 
 class songs {
     private:
         std::string songTitles[100];
-        int* songSelection[40][25];     //[People][Songs] 
+        int songSelection[40][25];     //[People][Songs] 
         int songSheet[40][5][5];        //[People][Sheet Hight][Sheet Width]
     
     public:
@@ -38,8 +40,16 @@ class songs {
         }
 };
 
-void chooseSongs(int* songSelection[40][25]){
-    
+void chooseSongs(int** songSelection){
+    // Seed the random number generator with the current time
+    srand(time(0));
+
+    // Fill the 2D array with random numbers from 0 to 24
+    for (int i = 0; i < 40; ++i) {
+        for (int j = 0; j < 25; ++j) {
+            songSelection[i][j] = rand() % 25;
+        }
+    }
 };
 
 int main() {
