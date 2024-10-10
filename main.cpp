@@ -8,8 +8,8 @@
 class Songs {
 private:
     std::array<std::string, 100> songTitles;
-    std::array<std::array<int, 25>, 40> songSelection;
-    std::array<std::array<std::array<int, 5>, 5>, 40> songSheet;
+    std::array<std::array<int, 25>, 40> songSelection;              // [Songs] [People]
+    std::array<std::array<std::array<int, 5>, 5>, 40> songSheet;    // [Row] [Column] [Person]
 
 public:
     // Getter for songTitles
