@@ -1,55 +1,44 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <fstream>
 #include <string>
-#include <sstream>
-#include <algorithm> 
-#include <vector>   
-#include <random>    
+#include <array>
+#include <random>
+#include <algorithm>
 
-class songs {
+class Songs {
 private:
-    std::string songTitles[100];
-    int songSelection[40][25]; //[People][Songs]
-    int songSheet[40][5][5];   //[People][Sheet Hight][Sheet Width]
+    std::array<std::string, 100> songTitles;
+    std::array<std::array<int, 25>, 40> songSelection;
+    std::array<std::array<std::array<int, 5>, 5>, 40> songSheet;
 
 public:
-    //Getter for songTitles
+    // Getter for songTitles
     std::string getSongTitle(int index) const {
-        if (index >= 0 && index < 100) {
-            return songTitles[index];
-        }
-        return "";
+        return (index >= 0 && index < 100) ? songTitles[index] : "";
     }
 
-    //Setter for songTitles
-    void setSongTitle(int index, const std::string &title) {
+    // Setter for songTitles
+    void setSongTitle(int index, const std::string& title) {
         if (index >= 0 && index < 100) {
             songTitles[index] = title;
         }
     }
 
-    //Setter for entire songSelection array
-    void setSongSelection(const int newSongSelection[40][25]) {
-        for (int i = 0; i < 40; ++i) {
-            for (int j = 0; j < 25; ++j) {
-                songSelection[i][j] = newSongSelection[i][j];
-            }
-        }
+    // Setter for songSelection
+    void setSongSelection(const std::array<std::array<int, 25>, 40>& newSelection) {
+        songSelection = newSelection;
     }
 };
 
 // Function to read song titles from a file
-void readSongTitles(songs &s) {
+void readSongTitles(Songs& s) {
     std::ifstream file("Songs.txt");
-    std::string line, title;
+    std::string title;
     int index = 0;
 
     if (file.is_open()) {
         while (std::getline(file, title) && index < 100) {
-            s.setSongTitle(index, title); // Set the title in the songs array
-            index++;
+            s.setSongTitle(index++, title);
         }
         file.close();
         std::cout << "Read " << index << " song titles from file.\n";
@@ -59,144 +48,101 @@ void readSongTitles(songs &s) {
 }
 
 // Function to choose random songs for each person
-void chooseSongs(int songSelection[40][25]) {
-    // Seed for random number generator
-    srand(time(0));
+void chooseSongs(std::array<std::array<int, 25>, 40>& songSelection) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, 24);
 
-    // For each person
-    for (int i = 0; i < 40; ++i) {
-        // Boolean array to track used songs (false = not used, true = used)
-        bool usedSongs[25] = {false};
-
-        for (int j = 0; j < 25; ++j) {
+    for (auto& personSelection : songSelection) {
+        std::array<bool, 25> usedSongs = {false};
+        for (int& song : personSelection) {
             int randomSong;
-
-            // Keep picking a random song until an unused one is found
             do {
-                randomSong = rand() % 25; // Random number between 0 and 24
-            } while (usedSongs[randomSong]); // Repeat if the song was already used
-
-            // Mark this song as used and add it to the person's selection
+                randomSong = dist(gen);
+            } while (usedSongs[randomSong]);
             usedSongs[randomSong] = true;
-            songSelection[i][j] = randomSong;
+            song = randomSong;
         }
     }
 }
 
 // Function to randomize the song sheet
-void randomiseSheet(int songSheet[40][5][5], const int songSelection[40][25]) {
-    // Array to track which songs have been selected
-    bool selected[25];
+void randomizeSheet(std::array<std::array<std::array<int, 5>, 5>, 40>& songSheet, 
+                    const std::array<std::array<int, 25>, 40>& songSelection) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, 24);
 
     for (int i = 0; i < 40; ++i) {
-        // Reset selected array for each songSheet
-        for (int s = 0; s < 25; ++s) {
-            selected[s] = false;
-        }
-
+        std::array<bool, 25> selected = {false};
         for (int j = 0; j < 5; ++j) {
             for (int k = 0; k < 5; ++k) {
                 int randomSong;
-
-                // Find a unique random song
                 do {
-                    randomSong = rand() % 25; // Pick a random song
-                } while (selected[randomSong]); // Keep picking until we find an unselected song
-
-                // Mark the song as selected
+                    randomSong = dist(gen);
+                } while (selected[randomSong]);
                 selected[randomSong] = true;
-
-                // Assign the unique song to the songSheet
                 songSheet[i][j][k] = songSelection[i][randomSong];
             }
         }
     }
 }
 
-void createPDF(const songs &s, const int songSheet[40][5][5]) {
-    // Create an HTML file
+// Function to create a PDF (via HTML file)
+void createPDF(const Songs& s, const std::array<std::array<std::array<int, 5>, 5>, 40>& songSheet) {
     std::ofstream htmlFile("bingo_sheets.html");
-    
+
     if (!htmlFile.is_open()) {
         std::cerr << "Failed to create HTML file." << std::endl;
         return;
     }
 
-    // Write HTML header
     htmlFile << "<html><head><style>"
              << "td { border: 1px solid black; padding: 10px; text-align: center; }"
              << "table { width: 100%; table-layout: auto; }"
              << "h2 {font-family: Montserrat; }"
              << "</style></head><body>";
 
-    // Create a table for each person
     for (int person = 0; person < 40; ++person) {
         htmlFile << "<h2>Boozy Bino Sheet No. " << person + 1 << "</h2>";
         htmlFile << "<table>";
         for (int i = 0; i < 5; ++i) {
             htmlFile << "<tr>";
             for (int j = 0; j < 5; ++j) {
-                std::string songTitle = s.getSongTitle(songSheet[person][i][j]);
-                htmlFile << "<td>" << songTitle << "</td>";
+                htmlFile << "<td>" << s.getSongTitle(songSheet[person][i][j]) << "</td>";
             }
             htmlFile << "</tr>";
         }
         htmlFile << "</table>";
-
-        // Add page break after every 4 people
         if ((person + 1) % 4 == 0 && person < 39) {
             htmlFile << "<div style='page-break-after: always;'></div>";
         }
     }
 
-    // Close HTML file
     htmlFile << "</body></html>";
     htmlFile.close();
 
-    // Convert HTML to PDF using wkhtmltopdf
     std::string command = "wkhtmltopdf bingo_sheets.html ~/Downloads/bingo_sheets.pdf";
-    int result = system(command.c_str());
-
-    if (result == 0) {
+    if (system(command.c_str()) == 0) {
         std::cout << "PDF created successfully: ~/Downloads/bingo_sheets.pdf" << std::endl;
     } else {
         std::cerr << "Failed to create PDF. Make sure wkhtmltopdf is installed." << std::endl;
     }
 
-    // Remove the temporary HTML file
     remove("bingo_sheets.html");
 }
 
 int main() {
-    songs s;
-
-    // Seed the random number generator once
+    Songs s;
     srand(time(0));
 
-    // Read song titles from file
     readSongTitles(s);
 
-    // Choosing songs for each person
-    int songSelection[40][25];
+    std::array<std::array<int, 25>, 40> songSelection;
     chooseSongs(songSelection);
 
-    // Create sheet for each person
-    int songSheet[40][5][5];
-    randomiseSheet(songSheet, songSelection);
-
-    // Output the songSheet array for each person
-    for (int person = 0; person < 40; ++person) {
-        std::cout << "Song Sheet for Person " << person + 1 << ":\n";
-        for (int i = 0; i < 5; ++i) {
-            for (int j = 0; j < 5; ++j) {
-                // Get the song title using the song index
-                std::string songTitle = s.getSongTitle(songSheet[person][i][j]);
-                std::cout << songTitle << "\t\t\t";
-            }
-            std::cout << "\n";
-        }
-        std::cout << "\n";
-    }
+    std::array<std::array<std::array<int, 5>, 5>, 40> songSheet;
+    randomizeSheet(songSheet, songSelection);
 
     createPDF(s, songSheet);
 
