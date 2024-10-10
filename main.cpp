@@ -4,6 +4,7 @@
 #include <array>
 #include <random>
 #include <algorithm>
+#include <cstdlib>
 
 class Songs {
 private:
@@ -43,7 +44,8 @@ void readSongTitles(Songs& s) {
         file.close();
         std::cout << "Read " << index << " song titles from file.\n";
     } else {
-        std::cerr << "Unable to open Songs.txt file.\n";
+        std::cerr << "Unable to open Songs.txt file.\nAborting program....";
+        exit(0);
     }
 }
 
