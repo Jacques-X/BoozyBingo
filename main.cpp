@@ -113,6 +113,55 @@ void randomiseSheet(int songSheet[40][5][5], const int songSelection[40][25]) {
     }
 }
 
+void createPDF(const songs &s, const int songSheet[40][5][5]) {
+    // Create an HTML file
+    std::ofstream htmlFile("bingo_sheets.html");
+    
+    if (!htmlFile.is_open()) {
+        std::cerr << "Failed to create HTML file." << std::endl;
+        return;
+    }
+
+    // Write HTML header
+    htmlFile << "<html><head><style>"
+             << "table { border-collapse: collapse; page-break-after: always; }"
+             << "td { border: 1px solid black; padding: 10px; text-align: center; }"
+             << "</style></head><body>";
+
+    // Create a table for each person
+    for (int person = 0; person < 40; ++person) {
+        htmlFile << "<h2>Bingo Sheet for Person " << person + 1 << "</h2>";
+        htmlFile << "<table>";
+        for (int i = 0; i < 5; ++i) {
+            htmlFile << "<tr>";
+            for (int j = 0; j < 5; ++j) {
+                std::string songTitle = s.getSongTitle(songSheet[person][i][j]);
+                htmlFile << "<td>" << songTitle << "</td>";
+            }
+            htmlFile << "</tr>";
+        }
+        htmlFile << "</table>";
+        if (person < 39) htmlFile << "<div style='page-break-after: always;'></div>";
+    }
+
+    // Close HTML file
+    htmlFile << "</body></html>";
+    htmlFile.close();
+
+    // Convert HTML to PDF using wkhtmltopdf
+    std::string command = "wkhtmltopdf bingo_sheets.html bingo_sheets.pdf";
+    int result = system(command.c_str());
+
+    if (result == 0) {
+        std::cout << "PDF created successfully: bingo_sheets.pdf" << std::endl;
+    } else {
+        std::cerr << "Failed to create PDF. Make sure wkhtmltopdf is installed." << std::endl;
+    }
+
+    // Remove the temporary HTML file
+    remove("bingo_sheets.html");
+}
+
 int main() {
     songs s;
 
@@ -143,6 +192,8 @@ int main() {
         }
         std::cout << "\n";
     }
+
+    createPDF(s, songSheet);
 
     return 0;
 }
