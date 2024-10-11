@@ -1,3 +1,4 @@
 /Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles/BoozyBingo.dir
+/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles/Window.dir
 /Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles/edit_cache.dir
 /Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles/rebuild_cache.dir

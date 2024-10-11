@@ -129,6 +129,19 @@ BoozyBingo/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoozyBingo.dir/build.make CMakeFiles/BoozyBingo.dir/build
 .PHONY : BoozyBingo/fast
 
+#=============================================================================
+# Target rules for targets named Window
+
+# Build rule for target.
+Window: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Window
+.PHONY : Window
+
+# fast build rule for target.
+Window/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Window.dir/build.make CMakeFiles/Window.dir/build
+.PHONY : Window/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -158,7 +171,7 @@ window.o: window.cpp.o
 
 # target to build an object file
 window.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoozyBingo.dir/build.make CMakeFiles/BoozyBingo.dir/window.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Window.dir/build.make CMakeFiles/Window.dir/window.cpp.o
 .PHONY : window.cpp.o
 
 window.i: window.cpp.i
@@ -166,7 +179,7 @@ window.i: window.cpp.i
 
 # target to preprocess a source file
 window.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoozyBingo.dir/build.make CMakeFiles/BoozyBingo.dir/window.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Window.dir/build.make CMakeFiles/Window.dir/window.cpp.i
 .PHONY : window.cpp.i
 
 window.s: window.cpp.s
@@ -174,7 +187,7 @@ window.s: window.cpp.s
 
 # target to generate assembly for a file
 window.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoozyBingo.dir/build.make CMakeFiles/BoozyBingo.dir/window.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Window.dir/build.make CMakeFiles/Window.dir/window.cpp.s
 .PHONY : window.cpp.s
 
 # Help Target
@@ -186,6 +199,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... BoozyBingo"
+	@echo "... Window"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

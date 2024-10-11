@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = "/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build"
 
 # The main recursive "all" target.
 all: CMakeFiles/BoozyBingo.dir/all
+all: CMakeFiles/Window.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,6 +73,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/BoozyBingo.dir/clean
+clean: CMakeFiles/Window.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -81,12 +83,12 @@ clean: CMakeFiles/BoozyBingo.dir/clean
 CMakeFiles/BoozyBingo.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoozyBingo.dir/build.make CMakeFiles/BoozyBingo.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoozyBingo.dir/build.make CMakeFiles/BoozyBingo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles" --progress-num=1,2,3 "Built target BoozyBingo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles" --progress-num=1,2 "Built target BoozyBingo"
 .PHONY : CMakeFiles/BoozyBingo.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/BoozyBingo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles" 3
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles" 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/BoozyBingo.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles" 0
 .PHONY : CMakeFiles/BoozyBingo.dir/rule
@@ -99,6 +101,32 @@ BoozyBingo: CMakeFiles/BoozyBingo.dir/rule
 CMakeFiles/BoozyBingo.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoozyBingo.dir/build.make CMakeFiles/BoozyBingo.dir/clean
 .PHONY : CMakeFiles/BoozyBingo.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/Window.dir
+
+# All Build rule for target.
+CMakeFiles/Window.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Window.dir/build.make CMakeFiles/Window.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Window.dir/build.make CMakeFiles/Window.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles" --progress-num=3,4 "Built target Window"
+.PHONY : CMakeFiles/Window.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/Window.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles" 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Window.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/jacquesx/Documents/Coding Projects/BoozyBingo/build/CMakeFiles" 0
+.PHONY : CMakeFiles/Window.dir/rule
+
+# Convenience name for target.
+Window: CMakeFiles/Window.dir/rule
+.PHONY : Window
+
+# clean rule for target.
+CMakeFiles/Window.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Window.dir/build.make CMakeFiles/Window.dir/clean
+.PHONY : CMakeFiles/Window.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -4,31 +4,25 @@
 class MyFrame : public wxFrame
 {
 public:
-    MyFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600))
-    {
+    MyFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600)) {
         wxPanel* panel = new wxPanel(this, wxID_ANY);
         
-        wxGridSizer* gridSizer = new wxGridSizer(5, 4, 10, 10);
+        // Create a 5x5 grid sizer
+        wxGridSizer* gridSizer = new wxGridSizer(5, 5, 10, 10);
         
-        for (int i = 0; i < 20; i++)
-        {
-            wxTextCtrl* textField = new wxTextCtrl(panel, wxID_ANY, wxString::Format("Text %d", i + 1));
-            gridSizer->Add(textField, 0, wxEXPAND);
-            
-            wxButton* button = new wxButton(panel, wxID_ANY, wxString::Format("Button %d", i + 1));
-            gridSizer->Add(button, 0, wxEXPAND);
+        for (int i = 0; i < 25; i++) { // 25 cells for a 5x5 grid
+            wxButton* button = new wxButton(panel, wxID_ANY, wxString::Format("Button %d", i/2 + 1));
+                gridSizer->Add(button, 0, wxEXPAND);
         }
         
         panel->SetSizer(gridSizer);
     }
 };
 
-class MyApp : public wxApp
-{
+class MyApp : public wxApp {
 public:
-    virtual bool OnInit()
-    {
-        MyFrame* frame = new MyFrame("Buttons and Text Fields Example");
+    virtual bool OnInit() {
+        MyFrame* frame = new MyFrame("Boozy Bingo Song List");
         frame->Show(true);
         return true;
     }

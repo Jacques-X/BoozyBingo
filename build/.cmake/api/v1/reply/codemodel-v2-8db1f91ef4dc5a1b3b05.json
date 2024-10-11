@@ -15,7 +15,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -30,7 +31,8 @@
 					"name" : "BoozyBingo",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -39,8 +41,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "BoozyBingo::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-BoozyBingo-Debug-c1190aea2cc49ed2a883.json",
+					"jsonFile" : "target-BoozyBingo-Debug-7efbfeb12158e54ec10b.json",
 					"name" : "BoozyBingo",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Window::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Window-Debug-54350e9b884515a6d74e.json",
+					"name" : "Window",
 					"projectIndex" : 0
 				}
 			]
