@@ -7,14 +7,12 @@ project(BoozyBingo)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Find the wxWidgets package
-find_package(wxWidgets REQUIRED COMPONENTS core base)
+# Add the executable
+add_executable(BoozyBingo main.cpp window.cpp)
+
+find_package(wxWidgets REQUIRED gl core base)
+include(${wxWidgets_USE_FILE})
+target_link_libraries(BoozyBingo ${wxWidgets_LIBRARIES})
 
 # Set the include and link directories
 include(${wxWidgets_USE_FILE})
-
-# Add the executable
-add_executable(BoozyBingo main.cpp)
-
-# Link wxWidgets libraries
-target_link_libraries(BoozyBingo ${wxWidgets_LIBRARIES})

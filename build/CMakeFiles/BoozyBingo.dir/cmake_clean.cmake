@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "BoozyBingo.pdb"
   "CMakeFiles/BoozyBingo.dir/main.cpp.o"
   "CMakeFiles/BoozyBingo.dir/main.cpp.o.d"
+  "CMakeFiles/BoozyBingo.dir/window.cpp.o"
+  "CMakeFiles/BoozyBingo.dir/window.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.
