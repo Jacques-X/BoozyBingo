@@ -98,6 +98,9 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake"
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Compiler/zOS-C-DetermineCompiler.cmake"
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake"
+  "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
+  "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/FindPackageMessage.cmake"
+  "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/FindwxWidgets.cmake"
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake"
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Internal/FeatureTesting.cmake"
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Platform/Apple-AppleClang-C.cmake"
@@ -109,6 +112,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Platform/Darwin-Initialize.cmake"
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Platform/Darwin.cmake"
   "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/Platform/UnixPaths.cmake"
+  "/opt/homebrew/Cellar/cmake/3.30.4/share/cmake/Modules/UsewxWidgets.cmake"
   )
 
 # The corresponding makefile is:
