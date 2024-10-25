@@ -6,27 +6,30 @@
 #include <algorithm>
 #include <cstdlib>
 
+const int songsNum = 282;
+const int peopleNum = 35;
+
 class Songs {
 private:
-    std::array<std::string, 100> songTitles;
-    std::array<std::array<int, 25>, 40> songSelection;              // [Songs] [People]
-    std::array<std::array<std::array<int, 5>, 5>, 40> songSheet;    // [Row] [Column] [Person]
+    std::array<std::string, songsNum> songTitles;
+    std::array<std::array<int, 25>, peopleNum> songSelection;              // [Songs] [People]
+    std::array<std::array<std::array<int, 5>, 5>, peopleNum> songSheet;    // [Row] [Column] [Person]
 
 public:
     // Getter for songTitles
     std::string getSongTitle(int index) const {
-        return (index >= 0 && index < 100) ? songTitles[index] : "";
+        return (index >= 0 && index < 282) ? songTitles[index] : "";
     }
 
     // Setter for songTitles
     void setSongTitle(int index, const std::string& title) {
-        if (index >= 0 && index < 100) {
+        if (index >= 0 && index < 282) {
             songTitles[index] = title;
         }
     }
 
     // Setter for songSelection
-    void setSongSelection(const std::array<std::array<int, 25>, 40>& newSelection) {
+    void setSongSelection(const std::array<std::array<int, 25>, 35>& newSelection) {
         songSelection = newSelection;
     }
 };
@@ -38,7 +41,7 @@ void readSongTitles(Songs& s) {
     int index = 0;
 
     if (file.is_open()) {
-        while (std::getline(file, title) && index < 100) {
+        while (std::getline(file, title) && index < songsNum) {
             s.setSongTitle(index++, title);
         }
         file.close();
@@ -49,19 +52,19 @@ void readSongTitles(Songs& s) {
     }
 }
 
-// Function to choose random songs for each person
-void chooseSongs(std::array<std::array<int, 25>, 40>& songSelection) {
+// Function to choose unique random songs for each person
+void chooseSongs(std::array<std::array<int, 25>, peopleNum>& songSelection) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(0, 24);
+    std::uniform_int_distribution<> dist(0, songsNum - 1);
 
     for (auto& personSelection : songSelection) {
-        std::array<bool, 25> usedSongs = {false};
+        std::array<bool, songsNum> usedSongs = {false};  // Increase size to match songsNum
         for (int& song : personSelection) {
             int randomSong;
             do {
                 randomSong = dist(gen);
-            } while (usedSongs[randomSong]);
+            } while (usedSongs[randomSong]);  // Ensure unique song selection
             usedSongs[randomSong] = true;
             song = randomSong;
         }
@@ -69,13 +72,13 @@ void chooseSongs(std::array<std::array<int, 25>, 40>& songSelection) {
 }
 
 // Function to randomize the song sheet
-void randomizeSheet(std::array<std::array<std::array<int, 5>, 5>, 40>& songSheet, 
-                    const std::array<std::array<int, 25>, 40>& songSelection) {
+void randomizeSheet(std::array<std::array<std::array<int, 5>, 5>, peopleNum>& songSheet, 
+                    const std::array<std::array<int, 25>, peopleNum>& songSelection) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 24);
 
-    for (int i = 0; i < 40; ++i) {
+    for (int i = 0; i < peopleNum; ++i) {
         std::array<bool, 25> selected = {false};
         for (int j = 0; j < 5; ++j) {
             for (int k = 0; k < 5; ++k) {
@@ -91,7 +94,7 @@ void randomizeSheet(std::array<std::array<std::array<int, 5>, 5>, 40>& songSheet
 }
 
 // Function to create a PDF (via HTML file)
-void createPDF(const Songs& s, const std::array<std::array<std::array<int, 5>, 5>, 40>& songSheet) {
+void createPDF(const Songs& s, const std::array<std::array<std::array<int, 5>, 5>, peopleNum>& songSheet) {
     std::ofstream htmlFile("bingo_sheets.html");
 
     if (!htmlFile.is_open()) {
@@ -105,7 +108,7 @@ void createPDF(const Songs& s, const std::array<std::array<std::array<int, 5>, 5
              << "h2 {font-family: Montserrat; }"
              << "</style></head><body>";
 
-    for (int person = 0; person < 40; ++person) {
+    for (int person = 0; person < peopleNum; ++person) {
         htmlFile << "<h2>Boozy Bino Sheet No. " << person + 1 << "</h2>";
         htmlFile << "<table>";
         for (int i = 0; i < 5; ++i) {
@@ -115,8 +118,8 @@ void createPDF(const Songs& s, const std::array<std::array<std::array<int, 5>, 5
             }
             htmlFile << "</tr>";
         }
-        htmlFile << "</table>";
-        if ((person + 1) % 4 == 0 && person < 39) {
+        htmlFile << "</table><br><br><br>";
+        if ((person + 1) % 3 == 0 && person < (peopleNum-1)) {
             htmlFile << "<div style='page-break-after: always;'></div>";
         }
     }
@@ -140,10 +143,10 @@ int main() {
 
     readSongTitles(s);
 
-    std::array<std::array<int, 25>, 40> songSelection;
+    std::array<std::array<int, 25>, peopleNum> songSelection;
     chooseSongs(songSelection);
 
-    std::array<std::array<std::array<int, 5>, 5>, 40> songSheet;
+    std::array<std::array<std::array<int, 5>, 5>, peopleNum> songSheet;
     randomizeSheet(songSheet, songSelection);
 
     createPDF(s, songSheet);
