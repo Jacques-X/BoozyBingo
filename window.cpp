@@ -59,9 +59,10 @@ public:
         // Read and sort button names
         ReadButtonNames("Songs.txt");
 
-        // Fixed number of columns (e.g., 5), but rows will be dynamically set
-        size_t numCols = 5;
-        gridSizer = new wxGridSizer(0, numCols, 10, 10);  // Rows will be set dynamically
+        // Set fixed columns (4), calculate rows based on items
+        size_t numCols = 4;
+        size_t numRows = std::ceil(buttonNames.size() / static_cast<float>(numCols));
+        gridSizer = new wxGridSizer(numRows, numCols, 10, 10);
         
         // Add buttons
         for (const wxString& name : buttonNames) {
@@ -74,18 +75,19 @@ public:
         // Set the sizer and fit to content
         scrolledWindow->SetSizer(gridSizer);
         scrolledWindow->FitInside();  // Ensure scrolling area fits content
-
-        // Update the number of rows based on the window size
-        Bind(wxEVT_SIZE, &MyFrame::OnResize, this);
     }
 
 private:
     void ReadButtonNames(const wxString& filename) {
         std::ifstream file(filename.ToStdString());
         std::string line;
-        while (std::getline(file, line)) {
+        int count = 0;
+        
+        // Only read up to 282 songs
+        while (std::getline(file, line) && count < 282) {
             if (!line.empty()) {
                 buttonNames.push_back(wxString(line));
+                count++;
             }
         }
         std::sort(buttonNames.begin(), buttonNames.end());
@@ -96,24 +98,6 @@ private:
         if (clickedButton) {
             clickedButton->Toggle();
         }
-    }
-
-    void OnResize(wxSizeEvent& event) {
-        // Calculate number of rows based on window height
-        wxSize size = GetClientSize();
-        int windowHeight = size.GetHeight();
-
-        // Get the approximate height of one button (assuming all buttons have similar height)
-        if (!buttons.empty()) {
-            int buttonHeight = buttons[0]->GetSize().GetHeight();
-            if (buttonHeight > 0) {
-                int numRows = windowHeight / buttonHeight;
-                gridSizer->SetRows(numRows);  // Set the number of rows dynamically
-            }
-        }
-
-        scrolledWindow->FitInside();  // Ensure the scroll area updates
-        event.Skip();  // Continue with default resize handling
     }
 };
 
